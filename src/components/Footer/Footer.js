@@ -1,15 +1,9 @@
 import React, { PropTypes } from 'react';
 
-const Footer = props => {
-    return (
-        <footer>
-
-        </footer>
-    );
+const Footer = (props) => {
+  return <footer></footer>;
 };
 
-Footer.propTypes = {
-
-};
+Footer.propTypes = {};
 
 export default Footer;
