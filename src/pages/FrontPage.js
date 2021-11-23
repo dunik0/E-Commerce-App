@@ -6,7 +6,11 @@ const FrontPage = props => {
     return (
         <>
             <Header />
-
+            <section>
+                <button>
+                    essa
+                </button>
+            </section>
             <Footer />
         </>
     );

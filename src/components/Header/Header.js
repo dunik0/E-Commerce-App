@@ -1,10 +1,15 @@
 import React, { PropTypes } from 'react';
-import NavBar from './NavBar';
+import NavIcons from './NavIcons';
+import SearchBar from './SearchBar';
 
 const Header = props => {
     return (
         <header>
-            <NavBar />
+            <div>
+
+            </div>
+            <SearchBar />
+            <NavIcons />
         </header>
     );
 };
