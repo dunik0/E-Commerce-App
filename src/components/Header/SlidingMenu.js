@@ -1,13 +1,14 @@
 import React, { PropTypes, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import uuid from 'uuid';
 
 const SlidingMenu = (props) => {
   const [animation, setAnimation] = useState(true);
   const { categories } = props;
 
   const menuItems = categories.map((item) => (
-    <Link className={'menuLink'} to={`/category/${item}`}>
+    <Link className={'menuLink'} to={`/category/${item}`} key={uuid.v4()}>
       {item.toUpperCase()}
     </Link>
   ));

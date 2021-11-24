@@ -7,36 +7,23 @@ import SearchBar from './SearchBar';
 import MenuIcon from './MenuIcon';
 import SlidingMenu from './SlidingMenu';
 import Logo from './Logo';
+import ProductsContext from '../../context/ProductsContext';
 
 const Header = (props) => {
   const [isMenuShown, setIsMenuShown] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 1000 });
-
-  const categories = [
-    'sofas',
-    'beds',
-    'rugs',
-    'chairs',
-    'tables',
-    'cabinets',
-    'sofas',
-    'beds',
-    'rugs',
-    'chairs',
-    'tables',
-    'cabinets',
-  ];
+  const { categories } = useContext(ProductsContext);
 
   const toggleMenu = () => {
     setIsMenuShown((prevState) => !prevState);
   };
   console.log(isMenuShown);
   return (
-    <HeaderContainer>
+    <HeaderContainer onClick={isMenuShown ? toggleMenu : null}>
       {isMobile ? (
         <>
           <Row>
-            <MenuIcon toggleMenu={toggleMenu} />
+            <MenuIcon toggleMenu={toggleMenu} active={!isMenuShown} />
             <Logo />
             <NavIcons />
           </Row>
@@ -60,12 +47,14 @@ const Header = (props) => {
 Header.propTypes = {};
 
 const HeaderContainer = styled.header`
+  position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   width: min(980px, 100%);
   height: 110px;
   box-shadow: 0 1px rgb(0 0 0 / 5%);
+  background-color: white;
 `;
 
 const Row = styled.span`

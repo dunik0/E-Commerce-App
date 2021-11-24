@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import userIcon from '../../assets/user-icon.png';
 import basketIcon from '../../assets/shopping-basket-icon.png';
 import heartIcon from '../../assets/heart-icon.png';
+import LinkIcon from './LinkIcon';
 
 const NavIcons = (props) => {
   const linkIcons = [
@@ -13,9 +14,7 @@ const NavIcons = (props) => {
   ];
 
   const links = linkIcons.map((item) => (
-    <NavLink to={item.link}>
-      <Icon src={item.icon} />
-    </NavLink>
+    <LinkIcon destination={item.link} image={item.icon} key={item.link} />
   ));
   return <NavContainer>{links}</NavContainer>;
 };
@@ -26,11 +25,7 @@ const NavContainer = styled.nav`
   display: flex;
   width: 200px;
   justify-content: flex-end;
-`;
-
-const Icon = styled.img`
-  width: 24px;
-  height: 24px;
+  padding-right: 10px;
 `;
 
 export default NavIcons;

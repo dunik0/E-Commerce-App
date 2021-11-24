@@ -5,11 +5,11 @@ import menuIcon from '../../assets/menu-icon.png';
 import styled from 'styled-components';
 
 const MenuIcon = (props) => {
-  const { toggleMenu } = props;
+  const { toggleMenu, active } = props;
 
   return (
     <Container>
-      <Icon src={menuIcon} onClick={toggleMenu} />
+      <Icon src={menuIcon} onClick={active ? toggleMenu : null} />
     </Container>
   );
 };
@@ -21,9 +21,10 @@ const Container = styled.div`
 `;
 
 const Icon = styled.img`
-  padding-left: 20px;
+  padding: 0 10px 0 10px;
   width: 24px;
   height: 24px;
+  cursor: pointer;
 `;
 
 export default MenuIcon;

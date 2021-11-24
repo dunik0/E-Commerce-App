@@ -1,7 +1,12 @@
+import { ProductsContextProvider } from './context/ProductsContext';
 import Router from './components/Router/Router';
 
 function App() {
-  return <Router />;
+  return (
+    <ProductsContextProvider>
+      <Router />
+    </ProductsContextProvider>
+  );
 }
 
 export default App;

@@ -1,4 +1,5 @@
-import React, { PropTypes, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -11,7 +12,9 @@ const Categories = (props) => {
   return <Container>{links}</Container>;
 };
 
-Categories.propTypes = {};
+Categories.propTypes = {
+  categories: PropTypes.array.isRequired,
+};
 
 const Container = styled.div`
   display: flex;

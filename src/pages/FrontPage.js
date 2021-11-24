@@ -1,12 +1,16 @@
-import React, { PropTypes } from 'react';
-import Footer from '../components/Footer/Footer';
-import Header from '../components/Header/Header';
+import React, { PropTypes, useContext } from 'react';
+import ProductsContext from '../context/ProductsContext';
+import ProductList from '../components/ProductList/ProductList';
 import DefaultLayout from '../layouts/DefaultLayout';
 
 const FrontPage = (props) => {
+  const { products, categories } = useContext(ProductsContext);
+  console.log(products);
   return (
     <DefaultLayout>
-      <section></section>
+      <main style={{ marginTop: '120px' }}>
+        <ProductList products={products} />
+      </main>
     </DefaultLayout>
   );
 };
