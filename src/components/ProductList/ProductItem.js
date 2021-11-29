@@ -1,31 +1,41 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { host, port } from '../../APIConfig.json';
 import addToBasketIcon from '../../assets/shopping-basket-add-icon.png';
 import heartIcon from '../../assets/heart-icon.png';
+import heartFilledIcon from '../../assets/heart-filled-icon.png';
+import CartContext from '../../context/CartContext';
+import { useMediaQuery } from 'react-responsive';
 
-const ProductItem = ({ data, width }) => {
+const ProductItem = ({ data, width, isLiked }) => {
   const { title, image, price, id } = data;
+  const isMobile = useMediaQuery({ maxWidth: 400 });
+  const { toggleCartOverlay, addToLiked } = useContext(CartContext);
 
   return (
     <Container style={{ width }}>
-      <Link style={{ width: width - 25 }} to={`/product/${id}`}>
-        <Image
-          style={{ width: width - 25 }}
-          src={`http://${host}:${port}/${image}`}
-        />
-        <BottomPanelContainer>
-          <TextContainer>
+      <NavLink to={`/product/${id}`}>
+        <Image style={{ width }} src={`http://${host}:${port}/${image}`} />
+      </NavLink>
+      <BottomPanelContainer>
+        <Link to={`/product/${id}`}>
+          <TextContainer style={{ fontSize: isMobile ? '0.8rem' : '1rem' }}>
             <Text>{title}</Text>
             <Text> ${price}.00</Text>
           </TextContainer>
-          <ButtonContainer>
-            <Button src={heartIcon} />
-            <Button src={addToBasketIcon} />
-          </ButtonContainer>
-        </BottomPanelContainer>
-      </Link>
+        </Link>
+        <ButtonContainer>
+          <Button
+            src={isLiked ? heartFilledIcon : heartIcon}
+            onClick={() => addToLiked(id)}
+          />
+          <Button
+            src={addToBasketIcon}
+            onClick={() => toggleCartOverlay(data)}
+          />
+        </ButtonContainer>
+      </BottomPanelContainer>
     </Container>
   );
 };
@@ -33,14 +43,16 @@ const ProductItem = ({ data, width }) => {
 ProductItem.propTypes = {};
 
 const Image = styled.img`
-  width: 100px;
+  max-width: 450px;
 `;
 
-const Container = styled.div`
+const Container = styled.li`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 25px;
+  padding: 0 10px 0 10px;
+  max-width: 450px;
 `;
 
 const Link = styled(NavLink)`
@@ -50,11 +62,12 @@ const Link = styled(NavLink)`
   text-decoration: none;
   color: black;
   font-family: Montserrat;
+  width: 100%;
 `;
 
 const TextContainer = styled.span`
   padding-top: 5px;
-  width: 85%;
+  width: 100%;
 `;
 
 const Text = styled.div`
@@ -62,7 +75,7 @@ const Text = styled.div`
 `;
 
 const ButtonContainer = styled.span`
-  padding: 5px 5px 0 0;
+  padding-right: 5px;
   display: flex;
   flex-direction: column;
 `;
@@ -76,6 +89,7 @@ const Button = styled.img`
 const BottomPanelContainer = styled.span`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 export default ProductItem;

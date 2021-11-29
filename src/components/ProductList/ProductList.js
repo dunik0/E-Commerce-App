@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import CartContext from '../../context/CartContext';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 import ProductItem from './ProductItem';
 
 const ProductList = (props) => {
   const { products } = props;
 
+  const { likedItems } = useContext(CartContext);
+
   const { width } = useWindowDimensions();
 
   const productItems = products.map?.((item) => (
-    <ProductItem data={item} width={width / 2 - 10} />
+    <ProductItem
+      data={item}
+      width={width / 2 - 30}
+      key={item.id}
+      isLiked={likedItems.includes(item.id)}
+    />
   ));
-  console.log(products);
   return <Container>{productItems}</Container>;
 };
 
-const Container = styled.section`
+const Container = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  padding: 10px;
+  padding: 0 8px 0 8px;
+  width: min(980px, 100%);
 `;
 
 export default ProductList;

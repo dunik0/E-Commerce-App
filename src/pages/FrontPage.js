@@ -8,9 +8,7 @@ const FrontPage = (props) => {
   console.log(products);
   return (
     <DefaultLayout>
-      <main style={{ marginTop: '120px' }}>
-        <ProductList products={products} />
-      </main>
+      <ProductList products={products} />
     </DefaultLayout>
   );
 };

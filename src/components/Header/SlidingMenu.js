@@ -46,7 +46,7 @@ const Container = styled.nav`
   top: 110px;
   display: flex;
   flex-direction: column;
-  transition: 0.3s;
+  transition: 0.2s;
   width: 0;
   border-top: 1px solid rgba(163, 163, 163);
 `;
