@@ -11,7 +11,7 @@ import ProductsContext from '../../context/ProductsContext';
 
 const Header = (props) => {
   const [isMenuShown, setIsMenuShown] = useState(false);
-  const isMobile = useMediaQuery({ maxWidth: 1000 });
+  const isMobile = useMediaQuery({ maxWidth: 700 });
   const { categories } = useContext(ProductsContext);
 
   const toggleMenu = () => {
@@ -23,7 +23,7 @@ const Header = (props) => {
       {isMobile ? (
         <>
           <Row>
-            <MenuIcon toggleMenu={toggleMenu} active={!isMenuShown} />
+            <MenuIcon toggleMenu={toggleMenu} isMenuShown={isMenuShown} />
             <Logo />
             <NavIcons />
           </Row>

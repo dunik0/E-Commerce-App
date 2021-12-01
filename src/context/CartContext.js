@@ -11,6 +11,7 @@ const CartContext = React.createContext({
   addToLiked: () => {},
   addToCart: () => {},
   toggleCartOverlay: () => {},
+  formatPrice: () => {},
 });
 
 export const CartContextProvider = ({ children }) => {
@@ -35,11 +36,17 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const addToCart = (id, quantity) => {
-    setCartItems((prevState) => {
-      const cart = [...prevState];
-      cart.push({ id, quantity });
-      return cart;
-    });
+    const newCart = [...cartItems];
+    const indexInCart = newCart.findIndex((item) => item.id === id);
+    console.log(indexInCart);
+    if (indexInCart > -1) {
+      if (quantity != 0) newCart[indexInCart].quantity = quantity;
+      else newCart.splice(indexInCart, 1);
+    } else {
+      if (quantity != 0) newCart.push({ id, quantity });
+    }
+    setCartItems(newCart);
+    toggleCartOverlay();
   };
 
   const toggleCartOverlay = (data) => {
@@ -56,7 +63,10 @@ export const CartContextProvider = ({ children }) => {
       : 0;
   const countLikedItems = likedItems.length;
 
-  console.log(cartItems, countCartItems);
+  const formatPrice = (price) => {
+    return '$' + price + '.00';
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -67,6 +77,7 @@ export const CartContextProvider = ({ children }) => {
         toggleCartOverlay,
         countCartItems,
         countLikedItems,
+        formatPrice,
       }}
     >
       {isOverlowShown

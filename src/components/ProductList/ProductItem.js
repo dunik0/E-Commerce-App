@@ -8,30 +8,31 @@ import heartFilledIcon from '../../assets/heart-filled-icon.png';
 import CartContext from '../../context/CartContext';
 import { useMediaQuery } from 'react-responsive';
 
-const ProductItem = ({ data, width, isLiked }) => {
+const ProductItem = ({ data, isLiked, isMobile }) => {
   const { title, image, price, id } = data;
-  const isMobile = useMediaQuery({ maxWidth: 400 });
-  const { toggleCartOverlay, addToLiked } = useContext(CartContext);
+  const isSmallMobile = useMediaQuery({ maxWidth: 400 });
+  const { toggleCartOverlay, addToLiked, formatPrice } =
+    useContext(CartContext);
 
   return (
-    <Container style={{ width }}>
+    <Container isMobile={isMobile}>
       <NavLink to={`/product/${id}`}>
-        <Image style={{ width }} src={`http://${host}:${port}/${image}`} />
+        <Image isMobile={isMobile} src={`http://${host}:${port}/${image}`} />
       </NavLink>
       <BottomPanelContainer>
         <Link to={`/product/${id}`}>
-          <TextContainer style={{ fontSize: isMobile ? '0.8rem' : '1rem' }}>
+          <TextContainer isMobile={isSmallMobile}>
             <Text>{title}</Text>
-            <Text> ${price}.00</Text>
+            <Text> {formatPrice(price)}</Text>
           </TextContainer>
         </Link>
         <ButtonContainer>
           <Button
-            src={isLiked ? heartFilledIcon : heartIcon}
+            icon={isLiked ? heartFilledIcon : heartIcon}
             onClick={() => addToLiked(id)}
           />
           <Button
-            src={addToBasketIcon}
+            icon={addToBasketIcon}
             onClick={() => toggleCartOverlay(data)}
           />
         </ButtonContainer>
@@ -43,7 +44,7 @@ const ProductItem = ({ data, width, isLiked }) => {
 ProductItem.propTypes = {};
 
 const Image = styled.img`
-  max-width: 450px;
+  ${({ isMobile }) => (isMobile ? `width: calc(50vw - 40px);` : `width: 100%;`)}
 `;
 
 const Container = styled.li`
@@ -51,8 +52,17 @@ const Container = styled.li`
   flex-direction: column;
   align-items: center;
   margin-bottom: 25px;
-  padding: 0 10px 0 10px;
-  max-width: 450px;
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+    width: calc(50vw - 40px);
+    margin: 15px;
+    `
+      : `
+    width: 30%;
+    margin: 10px
+    `}
+}
 `;
 
 const Link = styled(NavLink)`
@@ -65,28 +75,33 @@ const Link = styled(NavLink)`
   width: 100%;
 `;
 
-const TextContainer = styled.span`
-  padding-top: 5px;
-  width: 100%;
+const TextContainer = styled.div`
+  dislpay: flex;
+  flex-direction: column;
+  ${({ isMobile }) => (isMobile ? `font-size: 0.8rem;` : `font-size: 1rem;`)}
 `;
 
 const Text = styled.div`
-  padding-top: 5px;
+  margin-top: 2px;
 `;
 
-const ButtonContainer = styled.span`
-  padding-right: 5px;
+const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const Button = styled.img`
+const Button = styled.button`
   padding-top: 5px;
   width: 24px;
   height 24px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  background-size: contain;
+  ${({ icon }) => `background-image: url(${icon});`}
 `;
 
-const BottomPanelContainer = styled.span`
+const BottomPanelContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;

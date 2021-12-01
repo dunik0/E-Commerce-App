@@ -3,26 +3,32 @@ import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
 import { host, port } from '../../APIConfig.json';
 import closeIcon from '../../assets/x-icon.png';
+import addToCartIcon from '../../assets/shopping-basket-add-icon.png';
 import PriceCalculator from './PriceCalculator';
 
-const OverlayDesktopView = ({ data }) => {
+const OverlayDesktopView = ({ data, quantity, setQuantity }) => {
   const { title, id, image, price } = data;
   const { toggleCartOverlay, addToCart } = useContext(CartContext);
-  const [quantity, setQuantity] = useState(1);
+
   return (
     <Prompt onClick={(e) => e.stopPropagation()}>
       <Image src={`http://${host}:${port}/${image}`} />
-      <Wraper>
+      <Wrapper>
         <Title>{title}</Title>
-        <PriceCalculator quantity={quantity} setQuantity={setQuantity} />
+        <PriceCalculator
+          price={price}
+          quantity={quantity}
+          setQuantity={setQuantity}
+        />
         <Button
           onClick={() => {
             addToCart(id, quantity);
           }}
         >
-          ADD TO CART
+          <CartIcon src={addToCartIcon} />
+          <ButtonText>ADD TO CART</ButtonText>
         </Button>
-      </Wraper>
+      </Wrapper>
       <Close src={closeIcon} onClick={toggleCartOverlay} />
     </Prompt>
   );
@@ -36,12 +42,11 @@ const Prompt = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: white;
-  width: min(600px, 90%);
   border-radius: 5px;
   font-family: Montserrat;
   box-shadow: 1px 1px 4px;
-  padding: 0 2px 0 2px;
-  width: min(600px, 80vh);
+  padding: 10px 10px 10px 10px;
+  width: min(600px, 80%);
 `;
 
 const Image = styled.img`
@@ -50,8 +55,8 @@ const Image = styled.img`
 `;
 
 const Title = styled.span`
-  width: min(400px, 90%);
-  margin: 10px 0 10px 0;
+  font-size: 1.3rem;
+  margin-bottom: 3vh;
 `;
 
 const Close = styled.img`
@@ -62,8 +67,26 @@ const Close = styled.img`
   margin-bottom: auto;
 `;
 
-const Button = styled.button``;
+const Button = styled.button`
+  margin-top: 3vh;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: Montserrat;
+`;
 
-const Wraper = styled.span``;
+const ButtonText = styled.span`
+  width: 100%;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const CartIcon = styled.img`
+  width: 24px;
+  height: 24px;
+`;
 
 export default OverlayDesktopView;

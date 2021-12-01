@@ -6,15 +6,27 @@ import OverlayMobileView from './OverlayMobileView';
 import OverlayDesktopView from './OverlayDesktopView';
 
 const AddToCartOverlay = ({ item }) => {
-  const { toggleCartOverlay } = useContext(CartContext);
+  const { toggleCartOverlay, cartItems, addToCart } = useContext(CartContext);
   const isMobile = useMediaQuery({ maxWidth: 600 });
+  const inCart = cartItems.find((el) => el.id === item.id);
+  const [quantity, setQuantity] = useState(inCart ? inCart.quantity : 1);
+
+  console.log(inCart);
 
   return (
     <Backgound onClick={toggleCartOverlay}>
       {isMobile ? (
-        <OverlayMobileView data={item} />
+        <OverlayMobileView
+          quantity={quantity}
+          setQuantity={setQuantity}
+          data={item}
+        />
       ) : (
-        <OverlayDesktopView data={item} />
+        <OverlayDesktopView
+          quantity={quantity}
+          setQuantity={setQuantity}
+          data={item}
+        />
       )}
     </Backgound>
   );

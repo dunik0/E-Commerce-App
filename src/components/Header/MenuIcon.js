@@ -2,14 +2,17 @@ import React, { useState, useEffect, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import SlidingMenu from './SlidingMenu';
 import menuIcon from '../../assets/menu-icon.png';
+import closeIcon from '../../assets/x-icon.png';
 import styled from 'styled-components';
 
-const MenuIcon = (props) => {
-  const { toggleMenu, active } = props;
-
+const MenuIcon = ({ toggleMenu, isMenuShown }) => {
+  const isActive = !isMenuShown;
   return (
     <Container>
-      <Icon src={menuIcon} onClick={active ? toggleMenu : null} />
+      <Icon
+        src={isMenuShown ? closeIcon : menuIcon}
+        onClick={isActive ? toggleMenu : null}
+      />
     </Container>
   );
 };

@@ -6,7 +6,9 @@ import styled from 'styled-components';
 const Categories = (props) => {
   const { categories } = props;
   const links = categories.map((item) => (
-    <Link to={`/category/${item}`}>{item.toUpperCase()}</Link>
+    <Link to={`/category/${item}`} key={item}>
+      {item.toUpperCase()}
+    </Link>
   ));
 
   return <Container>{links}</Container>;

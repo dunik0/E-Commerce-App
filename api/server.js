@@ -63,11 +63,11 @@ app.post('/uploadProduct', (req, res) => {
           throw error;
         }
         res.status(201).send('Product added');
-      }
+      },
     );
   });
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port port!`);
+  console.log(`App listening on port ${port}!`);
 });

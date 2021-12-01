@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
 import closeIcon from '../../assets/x-icon.png';
 import PriceCalculator from './PriceCalculator';
+import addToCartIcon from '../../assets/shopping-basket-add-icon.png';
 import { host, port } from '../../APIConfig.json';
 
-const OverlayMobileView = ({ data }) => {
+const OverlayMobileView = ({ data, quantity, setQuantity }) => {
   const { title, id, image, price } = data;
-  const { toggleCartOverlay } = useContext(CartContext);
-  const [quantity, setQuantity] = useState(1);
+  const { toggleCartOverlay, addToCart } = useContext(CartContext);
 
   return (
     <Prompt onClick={(e) => e.stopPropagation()}>
@@ -18,8 +18,22 @@ const OverlayMobileView = ({ data }) => {
         onClick={toggleCartOverlay}
       />
       <Image src={`http://${host}:${port}/${image}`} />
-      <Title>{title}</Title>
-      <PriceCalculator quantity={quantity} setQuantity={setQuantity} />
+      <Wrapper>
+        <Title>{title}</Title>
+        <PriceCalculator
+          price={price}
+          quantity={quantity}
+          setQuantity={setQuantity}
+        />
+        <Button
+          onClick={() => {
+            addToCart(id, quantity);
+          }}
+        >
+          <CartIcon src={addToCartIcon} />
+          <ButtonText>ADD TO CART</ButtonText>
+        </Button>
+      </Wrapper>
     </Prompt>
   );
 };
@@ -46,7 +60,7 @@ const Image = styled.img`
 
 const Title = styled.span`
   width: min(400px, 90%);
-  margin: 10px 0 10px 0;
+  margin: 1vh 0 1vh 0;
 `;
 
 const Close = styled.img`
@@ -54,6 +68,29 @@ const Close = styled.img`
   height: 20px;
   cursor: pointer;
   margin: 2px;
+`;
+
+const Button = styled.button`
+  margin: 1vh 0 20px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-family: Montserrat;
+`;
+
+const ButtonText = styled.span`
+  width: 100%;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: min(400px, 89%);
+`;
+
+const CartIcon = styled.img`
+  width: 24px;
+  height: 24px;
 `;
 
 export default OverlayMobileView;

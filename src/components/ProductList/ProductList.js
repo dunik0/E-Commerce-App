@@ -1,32 +1,54 @@
 import React, { useContext } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
-import useWindowDimensions from '../../hooks/useWindowDimensions';
+import Filters from './Filters';
 import ProductItem from './ProductItem';
 
-const ProductList = (props) => {
-  const { products } = props;
-
+const ProductList = ({ products }) => {
   const { likedItems } = useContext(CartContext);
-
-  const { width } = useWindowDimensions();
+  const isMobile = useMediaQuery({ maxWidth: 700 });
 
   const productItems = products.map?.((item) => (
     <ProductItem
       data={item}
-      width={width / 2 - 30}
       key={item.id}
+      isMobile={isMobile}
       isLiked={likedItems.includes(item.id)}
     />
   ));
-  return <Container>{productItems}</Container>;
+  return (
+    <Container isMobile={isMobile}>
+      <Filters isMobile={isMobile} />
+      <ListContainer isMobile={isMobile}>{productItems}</ListContainer>
+    </Container>
+  );
 };
 
-const Container = styled.ul`
+const Container = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+
+  ${({ isMobile }) =>
+    isMobile ? `flex-direction: column;` : `flex-direction: row;`}
+`;
+
+const ListContainer = styled.ul`
   display: flex;
   flex-wrap: wrap;
-  padding: 0 8px 0 8px;
-  width: min(980px, 100%);
+  margin: 0;
+  padding: 0;
+
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+  width: calc(100% - 20px);
+  padding: 0 10px 0 10px;
+    `
+      : `
+  width: 100;
+    `}
 `;
 
 export default ProductList;

@@ -17,7 +17,7 @@ DefaultLayout.propTypes = {};
 
 const Main = styled.main`
   margin-top: 120px;
-  width: min(980px, 100%);
+  width: 100%;
 `;
 
 export default DefaultLayout;
