@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Categories = (props) => {
-  const { categories } = props;
+const Categories = ({ categories }) => {
   const links = categories.map((item) => (
-    <Link to={`/category/${item}`} key={item}>
+    <Link to={`/category/${item.toLowerCase()}`} key={item}>
       {item.toUpperCase()}
     </Link>
   ));
@@ -15,10 +14,10 @@ const Categories = (props) => {
 };
 
 Categories.propTypes = {
-  categories: PropTypes.array.isRequired,
+  categories: PropTypes.arrayOf(PropTypes.string),
 };
 
-const Container = styled.div`
+const Container = styled.nav`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

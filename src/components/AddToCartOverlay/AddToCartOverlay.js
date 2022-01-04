@@ -1,4 +1,5 @@
-import React, { PropTypes, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
@@ -11,8 +12,6 @@ const AddToCartOverlay = ({ item }) => {
   const inCart = cartItems.find((el) => el.id === item.id);
   const [quantity, setQuantity] = useState(inCart ? inCart.quantity : 1);
 
-  console.log(inCart);
-
   return (
     <Backgound onClick={toggleCartOverlay}>
       {isMobile ? (
@@ -20,19 +19,27 @@ const AddToCartOverlay = ({ item }) => {
           quantity={quantity}
           setQuantity={setQuantity}
           data={item}
+          toggleCartOverlay={toggleCartOverlay}
+          addToCart={addToCart}
+          inCart={inCart}
         />
       ) : (
         <OverlayDesktopView
           quantity={quantity}
           setQuantity={setQuantity}
           data={item}
+          toggleCartOverlay={toggleCartOverlay}
+          addToCart={addToCart}
+          inCart={inCart}
         />
       )}
     </Backgound>
   );
 };
 
-AddToCartOverlay.propTypes = {};
+AddToCartOverlay.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 
 const Backgound = styled.div`
   position: fixed;

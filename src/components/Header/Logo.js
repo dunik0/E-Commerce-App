@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../../assets/logo.png';
 import logoSmall from '../../assets/logo-small.png';
 
-const Logo = (props) => {
-  const { type = 'default' } = props;
+const Logo = ({ type = 'default' }) => {
   return (
     <NavLink to={'/'}>
       <Image src={type === 'default' ? logo : logoSmall} alt="Front Page" />
@@ -13,7 +13,9 @@ const Logo = (props) => {
   );
 };
 
-Logo.propTypes = {};
+Logo.propTypes = {
+  type: PropTypes.string,
+};
 
 const Image = styled.img`
   width: 150px;

@@ -1,22 +1,24 @@
-import React, { PropTypes, useContext, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CartContext from '../../context/CartContext';
 import closeIcon from '../../assets/x-icon.png';
 import PriceCalculator from './PriceCalculator';
 import addToCartIcon from '../../assets/shopping-basket-add-icon.png';
 import { host, port } from '../../APIConfig.json';
 
-const OverlayMobileView = ({ data, quantity, setQuantity }) => {
+const OverlayMobileView = ({
+  data,
+  quantity,
+  setQuantity,
+  toggleCartOverlay,
+  addToCart,
+  inCart,
+}) => {
   const { title, id, image, price } = data;
-  const { toggleCartOverlay, addToCart } = useContext(CartContext);
 
   return (
     <Prompt onClick={(e) => e.stopPropagation()}>
-      <Close
-        style={{ marginLeft: 'auto' }}
-        src={closeIcon}
-        onClick={toggleCartOverlay}
-      />
+      <Close src={closeIcon} onClick={toggleCartOverlay} />
       <Image src={`http://${host}:${port}/${image}`} />
       <Wrapper>
         <Title>{title}</Title>
@@ -31,14 +33,27 @@ const OverlayMobileView = ({ data, quantity, setQuantity }) => {
           }}
         >
           <CartIcon src={addToCartIcon} />
-          <ButtonText>ADD TO CART</ButtonText>
+          <ButtonText>
+            {inCart
+              ? quantity > 0
+                ? 'UPDATE CART'
+                : 'REMOVE FROM CART'
+              : 'ADD TO CART'}
+          </ButtonText>
         </Button>
       </Wrapper>
     </Prompt>
   );
 };
 
-OverlayMobileView.propTypes = {};
+OverlayMobileView.propTypes = {
+  data: PropTypes.object.isRequired,
+  quantity: PropTypes.number.isRequired,
+  setQuantity: PropTypes.func.isRequired,
+  toggleCartOverlay: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  inCart: PropTypes.any,
+};
 
 const Prompt = styled.div`
   display: flex;
@@ -58,7 +73,7 @@ const Image = styled.img`
   width: min(400px, 90%);
 `;
 
-const Title = styled.span`
+const Title = styled.div`
   width: min(400px, 90%);
   margin: 1vh 0 1vh 0;
 `;
@@ -68,6 +83,7 @@ const Close = styled.img`
   height: 20px;
   cursor: pointer;
   margin: 2px;
+  margin-left: auto;
 `;
 
 const Button = styled.button`
@@ -78,7 +94,7 @@ const Button = styled.button`
   font-family: Montserrat;
 `;
 
-const ButtonText = styled.span`
+const ButtonText = styled.div`
   width: 100%;
 `;
 

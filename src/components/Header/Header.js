@@ -1,4 +1,4 @@
-import React, { PropTypes, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import Categories from './Categories';
@@ -9,7 +9,7 @@ import SlidingMenu from './SlidingMenu';
 import Logo from './Logo';
 import ProductsContext from '../../context/ProductsContext';
 
-const Header = (props) => {
+const Header = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
   const isMobile = useMediaQuery({ maxWidth: 700 });
   const { categories } = useContext(ProductsContext);
@@ -17,7 +17,7 @@ const Header = (props) => {
   const toggleMenu = () => {
     setIsMenuShown((prevState) => !prevState);
   };
-  console.log(isMenuShown);
+
   return (
     <HeaderContainer onClick={isMenuShown ? toggleMenu : null}>
       {isMobile ? (
@@ -44,8 +44,6 @@ const Header = (props) => {
   );
 };
 
-Header.propTypes = {};
-
 const HeaderContainer = styled.header`
   position: fixed;
   display: flex;
@@ -57,7 +55,7 @@ const HeaderContainer = styled.header`
   background-color: white;
 `;
 
-const Row = styled.span`
+const Row = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;

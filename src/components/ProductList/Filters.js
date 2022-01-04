@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 
 const Filters = ({ isMobile }) => {
@@ -11,7 +10,9 @@ const Filters = ({ isMobile }) => {
   );
 };
 
-Filters.propTypes = {};
+Filters.propTypes = {
+  isMobile: PropTypes.bool,
+};
 
 const Button = styled.button`
   width: 100%;

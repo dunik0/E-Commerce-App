@@ -1,6 +1,5 @@
-import React, { useState, useEffect, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import SlidingMenu from './SlidingMenu';
+import React from 'react';
+import PropTypes from 'prop-types';
 import menuIcon from '../../assets/menu-icon.png';
 import closeIcon from '../../assets/x-icon.png';
 import styled from 'styled-components';
@@ -17,7 +16,10 @@ const MenuIcon = ({ toggleMenu, isMenuShown }) => {
   );
 };
 
-MenuIcon.propTypes = {};
+MenuIcon.propTypes = {
+  toggleMenu: PropTypes.func.isRequired,
+  isMenuShown: PropTypes.bool.isRequired,
+};
 
 const Container = styled.div`
   width: 200px;

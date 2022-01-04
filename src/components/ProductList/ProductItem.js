@@ -1,4 +1,5 @@
-import React, { PropTypes, useContext } from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { host, port } from '../../APIConfig.json';
@@ -41,7 +42,11 @@ const ProductItem = ({ data, isLiked, isMobile }) => {
   );
 };
 
-ProductItem.propTypes = {};
+ProductItem.propTypes = {
+  data: PropTypes.object.isRequired,
+  isLiked: PropTypes.bool,
+  isMobile: PropTypes.bool,
+};
 
 const Image = styled.img`
   ${({ isMobile }) => (isMobile ? `width: calc(50vw - 40px);` : `width: 100%;`)}

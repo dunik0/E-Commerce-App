@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import { useMediaQuery } from 'react-responsive';
 import AddToCartOverlay from '../components/AddToCartOverlay/AddToCartOverlay';
 
 const CartContext = React.createContext({
@@ -40,10 +40,10 @@ export const CartContextProvider = ({ children }) => {
     const indexInCart = newCart.findIndex((item) => item.id === id);
     console.log(indexInCart);
     if (indexInCart > -1) {
-      if (quantity != 0) newCart[indexInCart].quantity = quantity;
+      if (quantity !== 0) newCart[indexInCart].quantity = quantity;
       else newCart.splice(indexInCart, 1);
     } else {
-      if (quantity != 0) newCart.push({ id, quantity });
+      if (quantity !== 0) newCart.push({ id, quantity });
     }
     setCartItems(newCart);
     toggleCartOverlay();
@@ -89,6 +89,10 @@ export const CartContextProvider = ({ children }) => {
       {children}
     </CartContext.Provider>
   );
+};
+
+CartContextProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export default CartContext;

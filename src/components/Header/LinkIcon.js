@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-const LinkIcon = (props) => {
-  const { image, destination } = props;
+const LinkIcon = ({ image, destination }) => {
   return (
     <NavLink to={destination}>
       <Icon src={image} />

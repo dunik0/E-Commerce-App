@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { host, port } from '../APIConfig.json';
 
 const ProductsContext = React.createContext({
@@ -6,7 +7,7 @@ const ProductsContext = React.createContext({
   categories: [],
 });
 
-export const ProductsContextProvider = (props) => {
+export const ProductsContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -30,9 +31,13 @@ export const ProductsContextProvider = (props) => {
 
   return (
     <ProductsContext.Provider value={{ products, categories }}>
-      {props.children}
+      {children}
     </ProductsContext.Provider>
   );
+};
+
+ProductsContextProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export default ProductsContext;

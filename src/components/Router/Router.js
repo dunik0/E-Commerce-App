@@ -1,9 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminPage from '../../pages/AdminPage';
 import FrontPage from '../../pages/FrontPage';
 
-const Router = (props) => {
+const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -13,7 +13,5 @@ const Router = (props) => {
     </BrowserRouter>
   );
 };
-
-Router.propTypes = {};
 
 export default Router;

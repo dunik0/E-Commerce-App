@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
@@ -50,5 +51,9 @@ const ListContainer = styled.ul`
   width: 100;
     `}
 `;
+
+ProductList.propTypes = {
+  products: PropTypes.array.isRequired,
+};
 
 export default ProductList;

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import plusIcon from '../../assets/plus-icon.png';
 import minusIcon from '../../assets/minus-icon.png';
@@ -26,6 +27,12 @@ const PriceCalculator = ({ quantity, setQuantity, price }) => {
   );
 };
 
+PriceCalculator.propTypes = {
+  quantity: PropTypes.number.isRequired,
+  setQuantity: PropTypes.func.isRequired,
+  price: PropTypes.string.isRequired,
+};
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -39,12 +46,12 @@ const Button = styled.img`
   cursor: pointer;
 `;
 
-const Text = styled.span`
+const Text = styled.div`
   min-width: 30px;
   text-align: center;
 `;
 
-const Wraper = styled.span`
+const Wraper = styled.div`
   display: flex;
   align-items: center;
 `;

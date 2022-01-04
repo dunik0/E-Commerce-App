@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import DefaultLayout from '../layouts/DefaultLayout';
-import config from '../APIConfig.json';
+import { host, port } from '../APIConfig.json';
 
 const AdminPage = () => {
   const formRef = useRef();
@@ -11,13 +11,10 @@ const AdminPage = () => {
 
     const data = new FormData(formRef.current);
     console.log(data);
-    const res = await fetch(
-      `http://${config.host}:${config.port}/uploadProduct`,
-      {
-        method: 'POST',
-        body: data,
-      }
-    );
+    const res = await fetch(`http://${host}:${port}/uploadProduct`, {
+      method: 'POST',
+      body: data,
+    });
     const message = await res.text();
     console.log(message);
     formRef.current.reset();

@@ -1,32 +1,38 @@
-import React, { PropTypes, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import uuid from 'uuid';
 
-const SlidingMenu = (props) => {
+const SlidingMenu = ({ categories }) => {
   const [animation, setAnimation] = useState(true);
-  const { categories } = props;
 
   const menuItems = categories.map((item) => (
-    <Link className={'menuLink'} to={`/category/${item}`} key={uuid.v4()}>
+    <Link
+      className={'menuLink'}
+      to={`/category/${item.toLowerCase()}`}
+      key={uuid.v4()}
+    >
       {item.toUpperCase()}
     </Link>
   ));
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setAnimation((prevState) => !prevState);
     }, 1);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, []);
 
-  return (
-    <Container style={animation ? { width: 0 } : { width: '100%' }}>
-      {menuItems}
-    </Container>
-  );
+  return <Container animation={animation}>{menuItems}</Container>;
 };
 
-SlidingMenu.propTypes = {};
+SlidingMenu.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.string),
+};
 
 const Link = styled(NavLink)`
   display: flex;
@@ -39,6 +45,10 @@ const Link = styled(NavLink)`
   font-family: Montserrat;
   text-decoration: none;
   color: black;
+  transition: 0.3s;
+  &:hover {
+    background-color: #998b8b;
+  }
 `;
 
 const Container = styled.nav`
@@ -47,8 +57,8 @@ const Container = styled.nav`
   display: flex;
   flex-direction: column;
   transition: 0.2s;
-  width: 0;
   border-top: 1px solid rgba(163, 163, 163);
+  ${({ animation }) => (animation ? `width: 0;` : `width: 100%;`)}
 `;
 
 export default SlidingMenu;

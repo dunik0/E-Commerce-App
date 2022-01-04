@@ -1,19 +1,22 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Footer from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 
-const DefaultLayout = (props) => {
+const DefaultLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <Main>{props.children}</Main>
+      <Main>{children}</Main>
       <Footer />
     </>
   );
 };
 
-DefaultLayout.propTypes = {};
+DefaultLayout.propTypes = {
+  children: PropTypes.node,
+};
 
 const Main = styled.main`
   margin-top: 120px;

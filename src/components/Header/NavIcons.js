@@ -1,5 +1,4 @@
-import React, { PropTypes, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import userIcon from '../../assets/user-icon.png';
 import basketIcon from '../../assets/shopping-basket-icon.png';
@@ -8,7 +7,7 @@ import LinkIcon from './LinkIcon';
 import CartContext from '../../context/CartContext';
 import { useMediaQuery } from 'react-responsive';
 
-const NavIcons = (props) => {
+const NavIcons = () => {
   const { countLikedItems, countCartItems } = useContext(CartContext);
   const isMobile = useMediaQuery({ maxWidth: 400 });
   return (
@@ -27,8 +26,6 @@ const NavIcons = (props) => {
     </NavContainer>
   );
 };
-
-NavIcons.propTypes = {};
 
 const NavContainer = styled.nav`
   display: flex;

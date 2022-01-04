@@ -1,9 +1,9 @@
-import React, { useRef, PropTypes } from 'react';
+import React, { useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import searchIcon from '../../assets/search-icon.png';
 
-const SearchBar = (props) => {
+const SearchBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 1000 });
 
   const inputRef = useRef();
@@ -13,17 +13,12 @@ const SearchBar = (props) => {
   };
 
   return (
-    <Container
-      onClick={focusInput}
-      style={isMobile ? mobileStyles : desktopStyles}
-    >
+    <Container onClick={focusInput} isMobile={isMobile}>
       <Icon src={searchIcon} alt="Search" />
       <Input type="text" ref={inputRef} placeholder={'Search...'} />
     </Container>
   );
 };
-
-SearchBar.propTypes = {};
 
 const Input = styled.input`
   background: none;
@@ -42,6 +37,10 @@ const Container = styled.div`
   border-radius: 5px;
   background-color: #f5f5f5;
   cursor: pointer;
+  ${({ isMobile }) =>
+    isMobile
+      ? `padding: 5px; margin: 5px 30px 5px 30px;`
+      : `padding: 5px 0 5px 0; width: 200px;`}
 `;
 
 const Icon = styled.img`
@@ -49,15 +48,5 @@ const Icon = styled.img`
   height: 24px;
   padding-left: 5px;
 `;
-
-const mobileStyles = {
-  padding: '5px',
-  margin: '5px 30px 5px 30px',
-};
-
-const desktopStyles = {
-  padding: '5px 0 5px 0',
-  width: '200px',
-};
 
 export default SearchBar;

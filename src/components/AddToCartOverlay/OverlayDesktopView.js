@@ -1,14 +1,20 @@
-import React, { PropTypes, useContext, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import CartContext from '../../context/CartContext';
 import { host, port } from '../../APIConfig.json';
 import closeIcon from '../../assets/x-icon.png';
 import addToCartIcon from '../../assets/shopping-basket-add-icon.png';
 import PriceCalculator from './PriceCalculator';
 
-const OverlayDesktopView = ({ data, quantity, setQuantity }) => {
+const OverlayDesktopView = ({
+  data,
+  quantity,
+  setQuantity,
+  toggleCartOverlay,
+  addToCart,
+  inCart,
+}) => {
   const { title, id, image, price } = data;
-  const { toggleCartOverlay, addToCart } = useContext(CartContext);
 
   return (
     <Prompt onClick={(e) => e.stopPropagation()}>
@@ -26,7 +32,13 @@ const OverlayDesktopView = ({ data, quantity, setQuantity }) => {
           }}
         >
           <CartIcon src={addToCartIcon} />
-          <ButtonText>ADD TO CART</ButtonText>
+          <ButtonText>
+            {inCart
+              ? quantity > 0
+                ? 'UPDATE CART'
+                : 'REMOVE FROM CART'
+              : 'ADD TO CART'}
+          </ButtonText>
         </Button>
       </Wrapper>
       <Close src={closeIcon} onClick={toggleCartOverlay} />
@@ -34,7 +46,14 @@ const OverlayDesktopView = ({ data, quantity, setQuantity }) => {
   );
 };
 
-OverlayDesktopView.propTypes = {};
+OverlayDesktopView.propTypes = {
+  data: PropTypes.object.isRequired,
+  quantity: PropTypes.number.isRequired,
+  setQuantity: PropTypes.func.isRequired,
+  toggleCartOverlay: PropTypes.func.isRequired,
+  addToCart: PropTypes.func.isRequired,
+  inCart: PropTypes.any,
+};
 
 const Prompt = styled.div`
   display: flex;
@@ -54,7 +73,7 @@ const Image = styled.img`
   width: min(300px, 40vh);
 `;
 
-const Title = styled.span`
+const Title = styled.div`
   font-size: 1.3rem;
   margin-bottom: 3vh;
 `;
@@ -75,7 +94,7 @@ const Button = styled.button`
   font-family: Montserrat;
 `;
 
-const ButtonText = styled.span`
+const ButtonText = styled.div`
   width: 100%;
 `;
 
