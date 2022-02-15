@@ -12,13 +12,17 @@ export const ProductsContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
 
   const fetchData = async () => {
-    const res = await fetch(`http://${host}:${port}/getAllProducts`);
-    const products = await res.json();
-    const categories = products.map((item) => item.category);
-    const uniqueCategories = [...new Set(categories)];
-    uniqueCategories.unshift('All', 'Bestsellers', 'Sale');
-    setCategories(uniqueCategories);
-    setProducts(products);
+    try {
+      const res = await fetch(`http://${host}:${port}/getAllProducts`);
+      const products = await res.json();
+      const categories = products.map((item) => item.category);
+      const uniqueCategories = [...new Set(categories)];
+      uniqueCategories.unshift('All', 'Bestsellers', 'Sale');
+      setCategories(uniqueCategories);
+      setProducts(products);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
