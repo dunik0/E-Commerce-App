@@ -17,13 +17,13 @@ const CartContext = React.createContext({
 export const CartContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [likedItems, setLikedItems] = useState([]);
-  const [isOverlowShown, setIsOverlowShown] = useState(false);
+  const [isOverlayShown, setIsOverlayShown] = useState(false);
   const [overlayItem, setOverlayItem] = useState(null);
 
   useEffect(() => {
-    if (isOverlowShown) document.body.style.overflow = 'hidden';
+    if (isOverlayShown) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = 'scroll';
-  }, [isOverlowShown]);
+  }, [isOverlayShown]);
 
   const addToLiked = (id) => {
     setLikedItems((prevState) => {
@@ -50,7 +50,7 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const toggleCartOverlay = (data) => {
-    setIsOverlowShown((prevState) => !prevState);
+    setIsOverlayShown((prevState) => !prevState);
     setOverlayItem(data);
   };
 
@@ -80,7 +80,7 @@ export const CartContextProvider = ({ children }) => {
         formatPrice,
       }}
     >
-      {isOverlowShown
+      {isOverlayShown
         ? ReactDOM.createPortal(
             <AddToCartOverlay item={overlayItem} />,
             document.getElementById('root-overlay'),

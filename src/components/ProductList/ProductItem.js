@@ -18,7 +18,8 @@ const ProductItem = ({ data, isLiked, isMobile }) => {
   return (
     <Container isMobile={isMobile}>
       <NavLink to={`/product/${id}`}>
-        <Image isMobile={isMobile} src={`http://${host}:${port}/${image}`} />
+        {/* <Image isMobile={isMobile} src={`http://${host}:${port}/${image}`} /> */}
+        <Image isMobile={isMobile} src={image} />
       </NavLink>
       <BottomPanelContainer>
         <Link to={`/product/${id}`}>

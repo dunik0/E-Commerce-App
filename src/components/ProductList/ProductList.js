@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
-import Filters from './Filters';
+import FiltersMobile from './FiltersMobile';
 import ProductItem from './ProductItem';
+import Filters from './Filters';
 
 const ProductList = ({ products }) => {
   const { likedItems } = useContext(CartContext);
@@ -20,19 +21,25 @@ const ProductList = ({ products }) => {
   ));
   return (
     <Container isMobile={isMobile}>
-      <Filters isMobile={isMobile} />
-      <ListContainer isMobile={isMobile}>{productItems}</ListContainer>
+      {isMobile ? <FiltersMobile /> : <Filters />}
+      <ListContainer>{productItems}</ListContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
-  align-items: center;
 
   ${({ isMobile }) =>
-    isMobile ? `flex-direction: column;` : `flex-direction: row;`}
+    isMobile
+      ? `
+    flex-direction: column;
+  align-items: center;
+    width: calc(100% - 20px);
+    padding: 0 10px 0 10px;`
+      : `
+    flex-direction: row;
+    width: 100%;`}
 `;
 
 const ListContainer = styled.ul`
@@ -40,16 +47,7 @@ const ListContainer = styled.ul`
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
-
-  ${({ isMobile }) =>
-    isMobile
-      ? `
-  width: calc(100% - 20px);
-  padding: 0 10px 0 10px;
-    `
-      : `
-  width: 100;
-    `}
+  width: 100%;
 `;
 
 ProductList.propTypes = {

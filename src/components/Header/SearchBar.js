@@ -1,21 +1,32 @@
-import React, { useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import searchIcon from '../../assets/search-icon.png';
+import ProductsContext from '../../context/ProductsContext';
 
 const SearchBar = () => {
   const isMobile = useMediaQuery({ maxWidth: 1000 });
-
+  const [searchPhrase, setSearchPhrase] = useState('');
+  const { toggleFilter } = useContext(ProductsContext);
   const inputRef = useRef();
 
   const focusInput = () => {
     inputRef.current.focus();
   };
 
+  useEffect(() => {
+    toggleFilter(searchPhrase, 'search');
+  }, [searchPhrase]);
+
   return (
     <Container onClick={focusInput} isMobile={isMobile}>
       <Icon src={searchIcon} alt="Search" />
-      <Input type="text" ref={inputRef} placeholder={'Search...'} />
+      <Input
+        type="text"
+        ref={inputRef}
+        onChange={(e) => setSearchPhrase(e.target.value)}
+        placeholder={'Search...'}
+      />
     </Container>
   );
 };

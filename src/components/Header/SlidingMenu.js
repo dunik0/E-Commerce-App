@@ -8,11 +8,7 @@ const SlidingMenu = ({ categories }) => {
   const [animation, setAnimation] = useState(true);
 
   const menuItems = categories.map((item) => (
-    <Link
-      className={'menuLink'}
-      to={`/category/${item.toLowerCase()}`}
-      key={uuid.v4()}
-    >
+    <Link className={'menuLink'} to={`/category/${item}`} key={uuid.v4()}>
       {item.toUpperCase()}
     </Link>
   ));
@@ -52,6 +48,7 @@ const Link = styled(NavLink)`
 `;
 
 const Container = styled.nav`
+  overflow-y: scroll;
   position: absolute;
   top: 110px;
   display: flex;

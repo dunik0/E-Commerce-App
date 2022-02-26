@@ -1,52 +1,55 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import optionsIcon from '../../assets/options-icon.png';
+import ProductsContext from '../../context/ProductsContext';
+import FiltersCheckbox from './FiltersCheckbox';
 
-const Filters = ({ isMobile }) => {
+function Filters() {
+  const {
+    filters: { colors, materials, priceMin, priceMax },
+  } = useContext(ProductsContext);
+
+  const colorCheckboxes = colors?.map((color) => (
+    <FiltersCheckbox value={color} category={'colors'} key={color} />
+  ));
+
+  const materialCheckboxes = materials?.map((material) => (
+    <FiltersCheckbox value={material} category={'materials'} key={material} />
+  ));
+
   return (
-    <Button isMobile={isMobile}>
-      <FlexWrapper>
-        <Image src={optionsIcon} />
-        <Text>Filter Options</Text>
-      </FlexWrapper>
-    </Button>
+    <Container>
+      <Title>FILTER BY:</Title>
+      <Category>
+        <CategoryTitle>PRICE:</CategoryTitle>
+        {priceMin}
+        <input type={'range'} min={priceMin} max={priceMax} />
+        {priceMax}
+      </Category>
+      <Category>
+        <CategoryTitle>COLOR:</CategoryTitle>
+        {colorCheckboxes}
+      </Category>
+      <Category>
+        <CategoryTitle>MATERIAL:</CategoryTitle>
+        {materialCheckboxes}
+      </Category>
+    </Container>
   );
-};
+}
 
-Filters.propTypes = {
-  isMobile: PropTypes.bool,
-};
-
-const Button = styled.button`
-  width: 100%;
-  background-color: black;
-  padding: 0.5rem;
-  border: none;
-  ${({ isMobile }) =>
-    isMobile
-      ? `
-    width: 92%;
-  `
-      : `
-    width: 100px;
-  `}
-`;
-
-const Image = styled.img`
-  width; 20px;
-  height: 20px;
-`;
-
-const Text = styled.span`
-  color: white;
+const Container = styled.div`
   font-family: Montserrat;
-  margin: 0 auto;
 `;
 
-const FlexWrapper = styled.span`
-  display: flex;
-  align-items: center;
+const Title = styled.h2`
+  margin: 0;
+`;
+
+const CategoryTitle = styled.h3``;
+
+const Category = styled.ul`
+  list-style-type: none;
+  padding: 0;
 `;
 
 export default Filters;
