@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useMediaQuery } from 'react-responsive';
 import Categories from './Categories';
@@ -11,12 +11,26 @@ import ProductsContext from '../../context/ProductsContext';
 
 const Header = () => {
   const [isMenuShown, setIsMenuShown] = useState(false);
+  const [slidingMenuWidth, setSlidingMenuWidth] = useState('0%');
   const isMobile = useMediaQuery({ maxWidth: 700 });
+  const menuRef = useRef();
   const { categories } = useContext(ProductsContext);
 
   const toggleMenu = () => {
     setIsMenuShown((prevState) => !prevState);
+    if (!isMenuShown) menuRef.current.scrollTop = '0';
   };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setSlidingMenuWidth(isMenuShown ? '100%' : '0%');
+    }, 1);
+
+    if (isMenuShown) document.body.style.overflow = 'hidden';
+    else document.body.style.overflow = 'scroll';
+
+    return () => clearTimeout(timeout);
+  }, [isMenuShown]);
 
   return (
     <HeaderContainer onClick={isMenuShown ? toggleMenu : null}>
@@ -28,7 +42,11 @@ const Header = () => {
             <NavIcons />
           </Row>
           <SearchBar />
-          {isMenuShown ? <SlidingMenu categories={categories} /> : ''}
+          <SlidingMenu
+            categories={categories}
+            width={slidingMenuWidth}
+            menuRef={menuRef}
+          />
         </>
       ) : (
         <>

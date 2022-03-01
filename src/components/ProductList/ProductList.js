@@ -6,9 +6,12 @@ import CartContext from '../../context/CartContext';
 import FiltersMobile from './FiltersMobile';
 import ProductItem from './ProductItem';
 import Filters from './Filters';
+import ProductsContext from '../../context/ProductsContext';
+import ProductsPlaceholder from './ProductsPlaceholder';
 
 const ProductList = ({ products }) => {
   const { likedItems } = useContext(CartContext);
+  const { isLoading } = useContext(ProductsContext);
   const isMobile = useMediaQuery({ maxWidth: 700 });
 
   const productItems = products.map?.((item) => (

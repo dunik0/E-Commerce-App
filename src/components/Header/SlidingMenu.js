@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
 
-const SlidingMenu = ({ categories }) => {
-  const [animation, setAnimation] = useState(true);
-
+const SlidingMenu = ({ categories, width, menuRef }) => {
   const menuItems = categories.map((item) => (
     <Link className={'menuLink'} to={`/category/${item}`} key={uuid.v4()}>
       {item.toUpperCase()}
     </Link>
   ));
 
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setAnimation((prevState) => !prevState);
-    }, 1);
+  // useEffect(() => {
+  //   const timeout = setTimeout(() => {
+  //     setAnimation((prevState) => !prevState);
+  //   }, 1);
 
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, []);
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+  // }, []);
 
-  return <Container animation={animation}>{menuItems}</Container>;
+  return (
+    <Container ref={menuRef} width={width}>
+      {menuItems}
+    </Container>
+  );
 };
 
 SlidingMenu.propTypes = {
@@ -34,7 +36,7 @@ const Link = styled(NavLink)`
   display: flex;
   align-items: center;
   padding-left: 30px;
-  height: 50px;
+  min-height: 50px;
   width: 100%;
   background-color: #f5f5f5;
   border-bottom: 1px solid rgba(163, 163, 163);
@@ -49,13 +51,16 @@ const Link = styled(NavLink)`
 
 const Container = styled.nav`
   overflow-y: scroll;
-  position: absolute;
+  position: fixed;
   top: 110px;
+  bottom: 0;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
   transition: 0.2s;
   border-top: 1px solid rgba(163, 163, 163);
-  ${({ animation }) => (animation ? `width: 0;` : `width: 100%;`)}
+  ${({ width }) => `width: ${width};`}
 `;
 
 export default SlidingMenu;

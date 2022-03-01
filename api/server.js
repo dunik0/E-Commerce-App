@@ -30,11 +30,16 @@ const db = new Pool({
 });
 
 app.get('/getAllProducts', (req, res) => {
-  db.query('SELECT * FROM products', [], (error, results) => {
-    if (error) throw error;
-    console.log(results);
-    res.json(results.rows);
-  });
+  const { sortBy } = req.query;
+  db.query(
+    `SELECT * FROM products ORDER BY ${sortBy}`,
+    [],
+    (error, results) => {
+      if (error) throw error;
+      console.log(results);
+      res.json(results.rows);
+    },
+  );
 });
 
 app.post('/uploadProduct', (req, res) => {
