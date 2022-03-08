@@ -57,6 +57,12 @@ export const ProductsContextProvider = ({ children }) => {
         break;
       case 'category':
         setIsLoading(true);
+        setActiveFilters((prevState) => ({
+          ...prevState,
+          colors: [],
+          materials: [],
+          search: '',
+        }));
       case 'search':
         setActiveFilters((prevState) => ({
           ...prevState,
@@ -93,58 +99,54 @@ export const ProductsContextProvider = ({ children }) => {
   }, [sortBy]);
 
   useEffect(() => {
-    async function initProducts() {
-      const categories = allProducts.map((item) => item.category);
-      categories.unshift('all', 'bestsellers');
-      const colors = allProducts.map((item) =>
-        item.color.includes(',') ? item.color.split(',') : item.color,
-      );
-      const materials = allProducts.map((item) =>
-        item.materialfilter?.includes(',')
-          ? item.materialfilter.split(',')
-          : item.materialfilter,
-      );
-      const prices = allProducts.map((item) => item.price);
-      const min = Math.min(...prices);
-      const max = Math.max(...prices);
-      const uniqueCategories = [...new Set(categories)];
-      const uniqueColors = [...new Set(colors.flat())];
-      const uniqueMaterials = [...new Set(materials.flat())];
-      setCategories(uniqueCategories);
-      setFilters({
-        colors: uniqueColors,
-        materials: uniqueMaterials,
-        priceMin: min,
-        priceMax: max,
-      });
-      setActiveFilters((prevState) => ({
-        ...prevState,
-        priceMin: min,
-        priceMax: max,
-      }));
-    }
-    initProducts();
+    const categories = allProducts.map((item) => item.category);
+    categories.unshift('all', 'bestsellers');
+
+    const prices = allProducts.map((item) => item.price);
+    const min = Math.min(...prices);
+    const max = Math.max(...prices);
+    const uniqueCategories = [...new Set(categories)];
+    setCategories(uniqueCategories);
+    setFilters((prevState) => ({ ...prevState, priceMin: min, priceMax: max }));
+    setActiveFilters((prevState) => ({
+      ...prevState,
+      priceMin: min,
+      priceMax: max,
+    }));
   }, [allProducts]);
 
   useEffect(() => {
+    const colors = products.map((item) =>
+      item.color.includes(',') ? item.color.split(',') : item.color,
+    );
+    const materials = products.map((item) =>
+      item.materialfilter?.includes(',')
+        ? item.materialfilter.split(',')
+        : item.materialfilter,
+    );
+    const uniqueColors = [...new Set(colors.flat())];
+    const uniqueMaterials = [...new Set(materials.flat())];
+    setFilters((prevState) => ({
+      ...prevState,
+      colors: uniqueColors,
+      materials: uniqueMaterials,
+    }));
+  }, [isLoading]);
+
+  useEffect(() => {
     const filteredProducts = allProducts.filter((item) => {
-      const {
-        title,
-        color,
-        materialfilter,
-        material,
-        fabriccontent,
-        price,
-        bestseller,
-      } = item;
+      const { title, color, materialfilter, material, fabriccontent, price } =
+        item;
       const { colors, materials, search, priceMin, priceMax, category } =
         activeFilters;
-      if (category === 'bestsellers') return bestseller;
+      if (category === 'bestsellers') return item.bestseller;
       else
         return (
           (colors[0] ? colors.includes(color) : true) &&
           (materials[0]
-            ? materials.includes(...materialfilter.split(','))
+            ? materialfilter
+                .split(',')
+                .some((material) => materials.includes(material))
             : true) &&
           (search[0]
             ? search

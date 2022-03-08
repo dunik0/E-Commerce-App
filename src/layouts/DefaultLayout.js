@@ -19,7 +19,7 @@ DefaultLayout.propTypes = {
 };
 
 const Main = styled.main`
-  margin-top: 120px;
+  margin-top: 110px;
   width: 100%;
 `;
 

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const Categories = ({ categories }) => {
   const links = categories.map((item) => (
-    <Link to={`/category/${item.toLowerCase()}`} key={item}>
+    <Link to={item === 'all' ? '/' : `/category/${item}`} key={item}>
       {item.toUpperCase()}
     </Link>
   ));
@@ -31,6 +31,9 @@ const Link = styled(NavLink)`
   font-size: 0.9rem;
   font-family: Poppins;
   font-weight: 1000;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default Categories;

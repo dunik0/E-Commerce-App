@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import ProductList from '../components/ProductList/ProductList';
 import ProductsPlaceholder from '../components/ProductList/ProductsPlaceholder';
@@ -8,20 +8,18 @@ import DefaultLayout from '../layouts/DefaultLayout';
 
 function CategoryPage() {
   const { categoryName } = useParams();
-  const navigate = useNavigate();
-  if (categoryName === 'all') navigate('/');
-
   const [loading, setLoading] = useState(true);
   const { products, toggleFilter, isLoading } = useContext(ProductsContext);
 
   useEffect(() => {
-    toggleFilter(categoryName, 'category');
+    if (categoryName) toggleFilter(categoryName, 'category');
+    else toggleFilter('', 'category');
     setLoading(false);
   }, [categoryName]);
 
   return (
     <DefaultLayout>
-      <Title>{categoryName.toUpperCase()}</Title>
+      {categoryName && <Title>{categoryName}</Title>}
       {!loading && !isLoading ? (
         <ProductList products={products} />
       ) : (
@@ -31,6 +29,13 @@ function CategoryPage() {
   );
 }
 
-const Title = styled.h2``;
+const Title = styled.h1`
+  font-family: Poppins;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin: 0;
+  padding: 10px 25px;
+  box-shadow: 0 1px rgb(0 0 0 / 5%);
+`;
 
 export default CategoryPage;

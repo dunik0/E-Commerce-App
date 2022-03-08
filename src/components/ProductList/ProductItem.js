@@ -10,20 +10,21 @@ import CartContext from '../../context/CartContext';
 import { useMediaQuery } from 'react-responsive';
 
 const ProductItem = ({ data, isLiked, isMobile }) => {
-  const { title, image, price, id } = data;
+  const { title, image, price, id, url, bestseller } = data;
   const isSmallMobile = useMediaQuery({ maxWidth: 400 });
   const { toggleCartOverlay, addToLiked, formatPrice } =
     useContext(CartContext);
-
+  console.log(url);
   return (
     <Container isMobile={isMobile}>
-      <NavLink to={`/product/${id}`}>
+      <NavLink to={`/product/${url}`} state={{ data }}>
         {/* <Image isMobile={isMobile} src={`http://${host}:${port}/${image}`} /> */}
         <Image isMobile={isMobile} src={image} />
       </NavLink>
       <BottomPanelContainer>
-        <Link to={`/product/${id}`}>
+        <Link to={`/product/${url}`} state={{ data }}>
           <TextContainer isMobile={isSmallMobile}>
+            {bestseller && <SmallText>BESTSELLER</SmallText>}
             <Text>{title}</Text>
             <Text> {formatPrice(price)}</Text>
           </TextContainer>
@@ -65,7 +66,7 @@ const Container = styled.li`
     margin: 15px;
     `
       : `
-    width: 30%;
+    width: calc(100% / 3 - 20px);
     margin: 10px
     `}
 }
@@ -89,6 +90,12 @@ const TextContainer = styled.div`
 
 const Text = styled.div`
   margin-top: 2px;
+`;
+
+const SmallText = styled.div`
+  margin-top: 2px;
+  color: #3d3d3d;
+  font-size: 0.7em;
 `;
 
 const ButtonContainer = styled.div`

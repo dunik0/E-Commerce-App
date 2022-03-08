@@ -24,8 +24,8 @@ const ProductList = ({ products }) => {
   ));
   return (
     <Container isMobile={isMobile}>
-      {isMobile ? <FiltersMobile /> : <Filters />}
-      <ListContainer>{productItems}</ListContainer>
+      {isMobile ? <FiltersMobile /> : <Filters isMobile={false} />}
+      <ListContainer isMobile={isMobile}>{productItems}</ListContainer>
     </Container>
   );
 };
@@ -39,10 +39,12 @@ const Container = styled.div`
     flex-direction: column;
   align-items: center;
     width: calc(100% - 20px);
-    padding: 0 10px 0 10px;`
+    padding: 0 10px 0 10px;
+    margin-top: 25px;`
       : `
     flex-direction: row;
-    width: 100%;`}
+    width: 100%;
+    margin-top: 10px;`}
 `;
 
 const ListContainer = styled.ul`
@@ -50,7 +52,7 @@ const ListContainer = styled.ul`
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
-  width: 100%;
+  ${({ isMobile }) => (isMobile ? 'width: 100%;' : 'width: max(75%, 100%)')}
 `;
 
 ProductList.propTypes = {

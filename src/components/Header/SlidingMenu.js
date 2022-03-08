@@ -6,7 +6,11 @@ import uuid from 'uuid';
 
 const SlidingMenu = ({ categories, width, menuRef }) => {
   const menuItems = categories.map((item) => (
-    <Link className={'menuLink'} to={`/category/${item}`} key={uuid.v4()}>
+    <Link
+      className={'menuLink'}
+      to={item === 'all' ? '/' : `/category/${item}`}
+      key={uuid.v4()}
+    >
       {item.toUpperCase()}
     </Link>
   ));

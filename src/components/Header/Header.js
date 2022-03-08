@@ -34,43 +34,52 @@ const Header = () => {
 
   return (
     <HeaderContainer onClick={isMenuShown ? toggleMenu : null}>
-      {isMobile ? (
-        <>
-          <Row>
-            <MenuIcon toggleMenu={toggleMenu} isMenuShown={isMenuShown} />
-            <Logo />
-            <NavIcons />
-          </Row>
-          <SearchBar />
-          <SlidingMenu
-            categories={categories}
-            width={slidingMenuWidth}
-            menuRef={menuRef}
-          />
-        </>
-      ) : (
-        <>
-          <Row>
+      <Wrapper>
+        {isMobile ? (
+          <>
+            <Row>
+              <MenuIcon toggleMenu={toggleMenu} isMenuShown={isMenuShown} />
+              <Logo />
+              <NavIcons />
+            </Row>
             <SearchBar />
-            <Logo />
-            <NavIcons />
-          </Row>
-          <Categories categories={categories} />
-        </>
-      )}
+            <SlidingMenu
+              categories={categories}
+              width={slidingMenuWidth}
+              menuRef={menuRef}
+            />
+          </>
+        ) : (
+          <>
+            <Row>
+              <SearchBar />
+              <Logo />
+              <NavIcons />
+            </Row>
+            <Categories categories={categories} />
+          </>
+        )}
+      </Wrapper>
     </HeaderContainer>
   );
 };
 
 const HeaderContainer = styled.header`
+  width: 100%;
+  display: flex;
+  justify-content: center;
   position: fixed;
+  box-shadow: 0 1px rgb(0 0 0 / 5%);
+  background-color: white;
+  z-index: 1;
+`;
+
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   width: min(980px, 100%);
   height: 110px;
-  box-shadow: 0 1px rgb(0 0 0 / 5%);
-  background-color: white;
 `;
 
 const Row = styled.div`
