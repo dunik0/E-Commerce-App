@@ -4,9 +4,12 @@ import styled from 'styled-components';
 import plusIcon from '../../assets/plus-icon.png';
 import minusIcon from '../../assets/minus-icon.png';
 import CartContext from '../../context/CartContext';
+import { useParams } from 'react-router-dom';
 
-const PriceCalculator = ({ quantity, setQuantity, price }) => {
+const PriceCalculator = ({ quantity, setQuantity, price, quantityInCart }) => {
   const { formatPrice } = useContext(CartContext);
+  const { id } = useParams();
+  const listView = !id ? true : false;
 
   const subtract = () => {
     setQuantity((prevState) => prevState - 1);
@@ -16,12 +19,24 @@ const PriceCalculator = ({ quantity, setQuantity, price }) => {
     setQuantity((prevState) => prevState + 1);
   };
   return (
-    <Container>
+    <Container listView={listView}>
       <Wraper>
-        <Button src={minusIcon} onClick={quantity > 0 ? subtract : null} />
-        <Text>{quantity}</Text>
+        <Button
+          src={minusIcon}
+          onClick={
+            quantityInCart
+              ? quantity > 0
+                ? subtract
+                : null
+              : quantity > 1
+              ? subtract
+              : null
+          }
+        />
+        <Text centered={true}>{quantity}</Text>
         <Button src={plusIcon} onClick={add} />
       </Wraper>
+      {listView || <Text>Quantity</Text>}
       <Wraper>{formatPrice(price * quantity)}</Wraper>
     </Container>
   );
@@ -35,9 +50,17 @@ PriceCalculator.propTypes = {
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 100%;
+  ${({ listView }) =>
+    listView
+      ? `
+      align-items: center;
+    justify-content: space-between;
+  `
+      : `
+      flex-direction: column-reverse;
+
+  `}
 `;
 
 const Button = styled.img`
@@ -48,7 +71,7 @@ const Button = styled.img`
 
 const Text = styled.div`
   min-width: 30px;
-  text-align: center;
+  ${({ centered }) => centered && 'text-align: center;'}
 `;
 
 const Wraper = styled.div`

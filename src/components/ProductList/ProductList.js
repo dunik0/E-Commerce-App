@@ -15,12 +15,7 @@ const ProductList = ({ products }) => {
   const isMobile = useMediaQuery({ maxWidth: 700 });
 
   const productItems = products.map?.((item) => (
-    <ProductItem
-      data={item}
-      key={item.id}
-      isMobile={isMobile}
-      isLiked={likedItems.includes(item.id)}
-    />
+    <ProductItem data={item} key={item.id} isMobile={isMobile} />
   ));
   return (
     <Container isMobile={isMobile}>

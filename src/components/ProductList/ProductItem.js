@@ -9,12 +9,12 @@ import heartFilledIcon from '../../assets/heart-filled-icon.png';
 import CartContext from '../../context/CartContext';
 import { useMediaQuery } from 'react-responsive';
 
-const ProductItem = ({ data, isLiked, isMobile }) => {
+const ProductItem = ({ data, isMobile }) => {
   const { title, image, price, id, url, bestseller } = data;
   const isSmallMobile = useMediaQuery({ maxWidth: 400 });
-  const { toggleCartOverlay, addToLiked, formatPrice } =
+  const { toggleCartOverlay, addToLiked, formatPrice, likedItems } =
     useContext(CartContext);
-  console.log(url);
+  const isLiked = likedItems.includes(id);
   return (
     <Container isMobile={isMobile}>
       <NavLink to={`/product/${url}`} state={{ data }}>
@@ -59,6 +59,7 @@ const Container = styled.li`
   flex-direction: column;
   align-items: center;
   margin-bottom: 25px;
+  font-family: Montserrat;
   ${({ isMobile }) =>
     isMobile
       ? `
@@ -78,7 +79,6 @@ const Link = styled(NavLink)`
   flex-direction: column;
   text-decoration: none;
   color: black;
-  font-family: Montserrat;
   width: 100%;
 `;
 

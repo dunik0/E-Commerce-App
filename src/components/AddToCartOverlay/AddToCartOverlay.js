@@ -4,15 +4,15 @@ import { useMediaQuery } from 'react-responsive';
 import styled from 'styled-components';
 import CartContext from '../../context/CartContext';
 import closeIcon from '../../assets/x-icon.png';
-import PriceCalculator from './PriceCalculator';
+import PriceCalculator from '../reusable/PriceCalculator';
 import addToCartIcon from '../../assets/shopping-basket-add-icon.png';
 
-const AddToCartOverlay = ({ item }) => {
-  const { toggleCartOverlay, cartItems, addToCart } = useContext(CartContext);
+const AddToCartOverlay = ({ item: { title, id, image, price } }) => {
+  const { toggleCartOverlay, cartItems, addToCart, getQuantityInCart } =
+    useContext(CartContext);
   const isMobile = useMediaQuery({ maxWidth: 600 });
-  const inCart = cartItems.find((el) => el.id === item.id);
-  const [quantity, setQuantity] = useState(inCart ? inCart.quantity : 1);
-  const { title, id, image, price } = item;
+  const quantityInCart = getQuantityInCart(id);
+  const [quantity, setQuantity] = useState(quantityInCart || 1);
 
   return (
     <Backgound onClick={toggleCartOverlay}>
@@ -31,17 +31,19 @@ const AddToCartOverlay = ({ item }) => {
           <PriceCalculator
             price={price}
             quantity={quantity}
+            quantityInCart={quantityInCart}
             setQuantity={setQuantity}
           />
           <Button
             onClick={() => {
               addToCart(id, quantity);
+              if (quantity === 0) setQuantity(1);
             }}
             isMobile={isMobile}
           >
             <CartIcon src={addToCartIcon} />
             <ButtonText>
-              {inCart
+              {quantityInCart
                 ? quantity > 0
                   ? 'UPDATE CART'
                   : 'REMOVE FROM CART'
@@ -75,6 +77,7 @@ const Backgound = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2;
 `;
 
 const Prompt = styled.div`

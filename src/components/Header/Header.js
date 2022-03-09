@@ -39,7 +39,7 @@ const Header = () => {
           <>
             <Row>
               <MenuIcon toggleMenu={toggleMenu} isMenuShown={isMenuShown} />
-              <Logo />
+              <Logo isMobile={isMobile} />
               <NavIcons />
             </Row>
             <SearchBar />
