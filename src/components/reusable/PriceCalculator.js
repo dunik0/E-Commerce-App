@@ -20,23 +20,27 @@ const PriceCalculator = ({ quantity, setQuantity, price, quantityInCart }) => {
   };
   return (
     <Container listView={listView}>
-      <Wraper>
-        <Button
-          src={minusIcon}
-          onClick={
-            quantityInCart
-              ? quantity > 0
-                ? subtract
-                : null
-              : quantity > 1
-              ? subtract
-              : null
-          }
-        />
-        <Text centered={true}>{quantity}</Text>
-        <Button src={plusIcon} onClick={add} />
-      </Wraper>
-      {listView || <Text>Quantity</Text>}
+      <Column>
+        {listView || <Text>Quantity</Text>}
+        <Wraper>
+          <Wraper className={'border'}>
+            <Button
+              src={minusIcon}
+              onClick={
+                quantityInCart
+                  ? quantity > 0
+                    ? subtract
+                    : null
+                  : quantity > 1
+                  ? subtract
+                  : null
+              }
+            />
+            <Text centered={true}>{quantity}</Text>
+            <Button src={plusIcon} onClick={add} />
+          </Wraper>
+        </Wraper>
+      </Column>
       <Wraper>{formatPrice(price * quantity)}</Wraper>
     </Container>
   );
@@ -45,7 +49,7 @@ const PriceCalculator = ({ quantity, setQuantity, price, quantityInCart }) => {
 PriceCalculator.propTypes = {
   quantity: PropTypes.number.isRequired,
   setQuantity: PropTypes.func.isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.any.isRequired,
 };
 
 const Container = styled.div`
@@ -77,6 +81,19 @@ const Text = styled.div`
 const Wraper = styled.div`
   display: flex;
   align-items: center;
+  &.border {
+    padding: 4px;
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 0.3rem;
+  }
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 5rem;
+  margin-top: 2rem;
 `;
 
 export default PriceCalculator;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { host, port } from '../../APIConfig.json';
-import addToBasketIcon from '../../assets/shopping-basket-add-icon.png';
+// import addToBasketIcon from '../../assets/shopping-basket-add-icon.png';
 import heartIcon from '../../assets/heart-icon.png';
 import heartFilledIcon from '../../assets/heart-filled-icon.png';
 import CartContext from '../../context/CartContext';
@@ -12,8 +12,7 @@ import { useMediaQuery } from 'react-responsive';
 const ProductItem = ({ data, isMobile }) => {
   const { title, image, price, id, url, bestseller } = data;
   const isSmallMobile = useMediaQuery({ maxWidth: 400 });
-  const { toggleCartOverlay, addToLiked, formatPrice, likedItems } =
-    useContext(CartContext);
+  const { addToLiked, formatPrice, likedItems } = useContext(CartContext);
   const isLiked = likedItems.includes(id);
   return (
     <Container isMobile={isMobile}>
@@ -34,10 +33,10 @@ const ProductItem = ({ data, isMobile }) => {
             icon={isLiked ? heartFilledIcon : heartIcon}
             onClick={() => addToLiked(id)}
           />
-          <Button
+          {/* <Button
             icon={addToBasketIcon}
             onClick={() => toggleCartOverlay(data)}
-          />
+          /> */}
         </ButtonContainer>
       </BottomPanelContainer>
     </Container>

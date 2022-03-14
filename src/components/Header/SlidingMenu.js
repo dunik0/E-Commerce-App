@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import uuid from 'uuid';
+import Footer from '../Footer/Footer';
 
 const SlidingMenu = ({ categories, width, menuRef }) => {
   const menuItems = categories.map((item) => (
@@ -28,6 +29,7 @@ const SlidingMenu = ({ categories, width, menuRef }) => {
   return (
     <Container ref={menuRef} width={width}>
       {menuItems}
+      <Footer />
     </Container>
   );
 };

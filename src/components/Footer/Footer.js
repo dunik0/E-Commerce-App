@@ -8,6 +8,7 @@ const Footer = (props) => {
 Footer.propTypes = {};
 
 const Container = styled.footer`
-  height: 400px;
+  min-height: 400px;
+  background-color: white;
 `;
 export default Footer;

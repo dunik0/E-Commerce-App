@@ -11,20 +11,24 @@ function Details({ data }) {
     shipping,
     color,
     material,
-    fabricConetent,
+    fabricconetent,
+    weight,
   } = data;
   return (
     <>
       <Container className={'first'} icon={minusIcon}>
         <Summary>
-          <Text>Details</Text>
+          <Title>Details</Title>
           <ExpandIcon icon={plusIcon}></ExpandIcon>
         </Summary>
         <Text>{description}</Text>
         <List>
-          <Item>Ships in: {shipping}</Item>
-
-          <Item>Overall dimensions: {dimensions}</Item>
+          {shipping && <Item>Ships in: {shipping}</Item>}
+          {color && <Item>Color: {color}</Item>}
+          {material && <Item>Material: {material}</Item>}
+          {fabricconetent && <Item>Fabric content: {fabricconetent}</Item>}
+          {dimensions && <Item>Overall dimensions: {dimensions}</Item>}
+          {weight && <Item>Total weight: {weight}</Item>}
         </List>
       </Container>
       {/* <Container>
@@ -33,14 +37,16 @@ function Details({ data }) {
           <ExpandIcon icon={plusIcon}></ExpandIcon>
         </Summary>
       </Container> */}
-      <Container icon={minusIcon}>
-        <Summary>
-          <Text>Care</Text>
+      {care && (
+        <Container icon={minusIcon}>
+          <Summary>
+            <Title>Care</Title>
 
-          <ExpandIcon icon={plusIcon}></ExpandIcon>
-        </Summary>
-        <Text dangerouslySetInnerHTML={{ __html: `<ul>${care}</ul>` }}></Text>
-      </Container>
+            <ExpandIcon icon={plusIcon}></ExpandIcon>
+          </Summary>
+          <Text dangerouslySetInnerHTML={{ __html: `<ul>${care}</ul>` }}></Text>
+        </Container>
+      )}
     </>
   );
 }
@@ -48,6 +54,9 @@ function Details({ data }) {
 const Container = styled.details`
   width: 100%;
   height: auto;
+  font-family: Poppins;
+  font-size: 0.9rem;
+
   box-shadow: 0 1px rgb(0 0 0 / 10%);
   &.first {
     margin-top: 1rem;
@@ -88,15 +97,16 @@ margin: 0 1rem;
 }
 `;
 
-const Title = styled.h1`
+const Title = styled.h2`
   font-size: 1rem;
-  font-family: Montserat;
+  font-weight: bold;
 `;
 
 const Text = styled.div`
   margin: 0;
-  font-weight: bold;
   display: flex;
+  font-family: Poppins;
+
   flex-direction: column;
   ul {
     text-align: left;

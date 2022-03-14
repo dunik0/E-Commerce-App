@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { host, port } from '../APIConfig.json';
+import CartContext from './CartContext';
 
 const ProductsContext = React.createContext({
   products: [],
@@ -35,7 +36,7 @@ export const ProductsContextProvider = ({ children }) => {
   });
   const [isLoading, setIsLoading] = useState(true);
   const [sortBy, setSortBy] = useState('title asc');
-
+  const { likedItems } = useContext(CartContext);
   const changeSorting = (value) => {
     setIsLoading(true);
     setSortBy(value);
@@ -135,11 +136,19 @@ export const ProductsContextProvider = ({ children }) => {
 
   useEffect(() => {
     const filteredProducts = allProducts.filter((item) => {
-      const { title, color, materialfilter, material, fabriccontent, price } =
-        item;
+      const {
+        id,
+        title,
+        color,
+        materialfilter,
+        material,
+        fabriccontent,
+        price,
+      } = item;
       const { colors, materials, search, priceMin, priceMax, category } =
         activeFilters;
       if (category === 'bestsellers') return item.bestseller;
+      else if (category === 'liked') return likedItems.includes(id);
       else
         return (
           (colors[0] ? colors.includes(color) : true) &&

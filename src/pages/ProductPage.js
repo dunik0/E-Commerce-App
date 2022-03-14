@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -24,6 +24,11 @@ function ProductPage() {
   const isLiked = likedItems.includes(id);
   const quantityInCart = getQuantityInCart(id);
   const [quantity, setQuantity] = useState(quantityInCart || 1);
+  console.log(location.state.data);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   return (
     <DefaultLayout>
@@ -59,7 +64,7 @@ function ProductPage() {
               : 'ADD TO CART'}
           </ButtonText>
         </AddToCartButton>
-        <SmallText>Ships in: {shipping}</SmallText>
+        {shipping && <SmallText>Ships in: {shipping}</SmallText>}
         <Details data={location.state.data} />
       </Container>
     </DefaultLayout>
@@ -102,7 +107,13 @@ const SmallText = styled.div`
 `;
 
 const Image = styled.img`
-  ${({ isMobile }) => (isMobile ? `width: 100%;` : `width: 40%;`)}
+  ${({ isMobile }) =>
+    isMobile
+      ? `
+  width: 100%;
+  margin-bottom: 1.5rem;
+  `
+      : `width: 40%;`}
 `;
 
 const Button = styled.button`
@@ -129,7 +140,7 @@ const AddToCartButton = styled.button`
   ${({ isMobile }) =>
     isMobile
       ? `
-      margin: 1em 0;
+      margin: 1.5em 0;
       width: 100%;
 `
       : `
